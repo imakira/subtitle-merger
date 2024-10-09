@@ -1,0 +1,9 @@
+* Usage
+
+Only srt and vtt files are supported currently
+
+#+BEGIN_SRC bash
+nix run github:imakira/subtitle-merger -- -o <output_name.[srt | vtt]> input1.srt input2.vtt ...
+#+END_SRC
+
+
