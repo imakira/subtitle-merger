@@ -28,7 +28,7 @@
           name = "coruscation/subtitle-merger";
           tag = "latest";
           config = {
-            Cmd = [ "${packages.default}/bin/subtitle-merger" ];
+            Entrypoint = [ "${packages.default}/bin/subtitle-merger" ];
           };
         };
       });
