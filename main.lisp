@@ -40,7 +40,7 @@ Otherwise, the new predicate compares x and y using NEXT-PREDICATE."
 (defun to-tuples (subtitle-str)
   (let ((timestamps-header-regex (ppcre:create-scanner
                                   "(\\d{2}):(\\d{2}):(\\d{2})[\\.,](\\d+)\\s+-->\\s+(\\d{2}):(\\d{2}):(\\d{2})[\\.,](\\d+).*"))
-        (delimiter-regex (ppcre:create-scanner "[\\r\\n]{1,2}[\\r\\n]{1,2}" )))
+        (delimiter-regex (ppcre:create-scanner "(\\r\\r|\\n\\n|\\r\\n\\r\\n)" )))
     (labels ((calculate-timestamp (h m s ms)
                (+ (* (+ (* (+ (* 60 h) m) 60) s) 1000) ms))
              (calcul (start result)
