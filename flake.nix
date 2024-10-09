@@ -1,4 +1,3 @@
-
 {
   description = "";
   inputs.flake-utils.url = "github:numtide/flake-utils";
@@ -6,18 +5,31 @@
   outputs = { self, flake-utils, nixpkgs }:
     flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system};
-      in
-      {
+      in rec {
         packages.default = pkgs.writeShellApplication {
-          name = "ytb-whisper";
-          runtimeInputs = with pkgs;[
-            (sbcl.withPackages (ps:
-              with ps; [ alexandria arrow-macros serapeum defmain cl-ppcre trivia ]))
-          ];
+          name = "subtitle-merger";
+          runtimeInputs = with pkgs;
+            [
+              (sbcl.withPackages (ps:
+                with ps; [
+                  alexandria
+                  arrow-macros
+                  serapeum
+                  defmain
+                  cl-ppcre
+                  trivia
+                ]))
+            ];
           text = ''
-                 sbcl --script ${self}/main.lisp "$@"
-                 '';
+            sbcl --script ${self}/main.lisp "$@"
+          '';
         };
-      }
-    );
+        packages.docker = pkgs.dockerTools.buildLayeredImage {
+          name = "coruscation/subtitle-merger";
+          tag = "latest";
+          config = {
+            Cmd = [ "${packages.default}/bin/subtitle-merger" ];
+          };
+        };
+      });
 }
