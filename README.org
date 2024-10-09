@@ -2,8 +2,17 @@
 
 Only srt and vtt files are supported currently
 
+** Using nix
 #+BEGIN_SRC bash
 nix run github:imakira/subtitle-merger -- -o <output_name.[srt | vtt]> input1.srt input2.vtt ...
+#+END_SRC
+
+** Using docker
+
+The input files need to be under current directory, or whatever you passed on the mounting option.
+
+#+BEGIN_SRC bash
+docker run -t --rm -v ./:/dir coruscation/subtitle-merger -o /dir/out.vtt /dir/test1.vtt /dir/test1.srt
 #+END_SRC
 
 
